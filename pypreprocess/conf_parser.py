@@ -223,7 +223,7 @@ def _generate_preproc_pipeline(config_file, dataset_dir=None, output_dir=None,
     if preproc_params["slice_timing"]:
         preproc_params.update(dict((k, options.get(k, None))
                                    for k in ["TR", "TA", "slice_order",
-                                             "interleaved"]))
+                                             "interleaved", "ref_slice"]))
         if preproc_params["TR"] is None:
             preproc_params["slice_timing"] = False
 

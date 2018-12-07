@@ -134,7 +134,7 @@ except RuntimeError:
 
 
 def _do_subject_slice_timing(subject_data, TR, TA=None, spm_dir=None,
-                             matlab_exec=None, spm_mcr=None, ref_slice=0,
+                             matlab_exec=None, spm_mcr=None, ref_slice=None,
                              slice_order="ascending", interleaved=False,
                              caching=True, software="spm",
                              hardlink_output=True, report=True, **kwargs):
@@ -1183,7 +1183,7 @@ def do_subject_preproc(
     slice_timing=False,
     slice_order="ascending",
     interleaved=False,
-    ref_slice=0,
+    ref_slice=None,
     TR=None,
     TA=None,
     slice_timing_software="spm",
