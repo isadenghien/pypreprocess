@@ -77,12 +77,11 @@ def _sanitize(section, key, **replacements):
     if key in ["fwhm", "anat_fwhm", "anat_write_voxel_sizes",
                "func_write_voxel_sizes", "slice_order",
                "anat_write_voxel_size", "func_write_voxel_sizes"]:
-        dtype = np.int if key == "slice_order" else np.float
         if not isinstance(val, _basestring):
             val = ",".join(val)
         for x in "()[]":
             val = val.replace(x, "")
-        val = list(np.fromstring(val, sep=",", dtype=dtype))
+        val = list(np.fromstring(val, sep=","))
         if len(val) == 1:
             val = val[0]
     section[key] = val

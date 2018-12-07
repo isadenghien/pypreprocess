@@ -134,7 +134,7 @@ except RuntimeError:
 
 
 def _do_subject_slice_timing(subject_data, TR, TA=None, spm_dir=None,
-                             matlab_exec=None, spm_mcr=None, ref_slice=1,
+                             matlab_exec=None, spm_mcr=None, ref_slice=0,
                              slice_order="ascending", interleaved=False,
                              caching=True, software="spm",
                              hardlink_output=True, report=True, **kwargs):
@@ -165,14 +165,15 @@ def _do_subject_slice_timing(subject_data, TR, TA=None, spm_dir=None,
 
     # compute nslices
     nslices = load_vols(subject_data.func[0])[0].shape[2]
-    assert 1 <= ref_slice <= nslices, ref_slice
+    assert 0 <= ref_slice <= nslices, ref_slice
 
     # compute slice indices / order
-    ref_slice -= 1
-    if not isinstance(slice_order, _basestring):
-        slice_order = np.array(slice_order) - 1
-    slice_order = get_slice_indices(nslices, slice_order=slice_order,
-                                    interleaved=interleaved)
+    #no longer used because the order is now given into the config.ini file
+#    ref_slice -= 1
+#    if not isinstance(slice_order, _basestring):
+#        slice_order = np.array(slice_order) - 1
+#    slice_order = get_slice_indices(nslices, slice_order=slice_order,
+#                                    interleaved=interleaved)
 
     # use pure python (pp) code ?
     if software == "python":
@@ -216,8 +217,8 @@ def _do_subject_slice_timing(subject_data, TR, TA=None, spm_dir=None,
         stc_result = stc(**_update_interface_inputs(
             in_files=sess_func, time_repetition=TR,
             time_acquisition=TA, num_slices=nslices,
-            ref_slice=ref_slice + 1,
-            slice_order=list(slice_order + 1),  # SPM
+            ref_slice=ref_slice,
+            slice_order=slice_order,  # SPM
             interface_kwargs=kwargs))
         if stc_result.outputs is None:
             subject_data.failed = True
@@ -1182,7 +1183,7 @@ def do_subject_preproc(
     slice_timing=False,
     slice_order="ascending",
     interleaved=False,
-    ref_slice=1,
+    ref_slice=0,
     TR=None,
     TA=None,
     slice_timing_software="spm",
