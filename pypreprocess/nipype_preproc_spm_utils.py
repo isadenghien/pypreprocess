@@ -165,7 +165,6 @@ def _do_subject_slice_timing(subject_data, TR, TA=None, spm_dir=None,
 
     # compute nslices
     nslices = load_vols(subject_data.func[0])[0].shape[2]
-    assert 0 <= ref_slice <= nslices, ref_slice
 
     # compute slice indices / order
     #no longer used because the order is now given into the config.ini file
